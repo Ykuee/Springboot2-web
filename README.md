@@ -7,6 +7,7 @@
 >### 安装
 
 1. 项目使用maven，依赖完成后构建。（默认数据库使用oracle，jdbc驱动需要自行下载）
+2. 项目中使用Lombok与Mapstruct，需要构建
 ```
 mvn install
 mvn build
