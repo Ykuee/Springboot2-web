@@ -1,0 +1,46 @@
+# 项目相关配置
+datamaintenance:
+  #名称
+  name: datamaintenance
+  #版本
+  version: 0.75
+  #文件上传路径
+  defaultBaseDir: D:/dataMaintenancefile/
+  db:
+    db-type: oracle #postgresql
+    id-strategy: snow
+#tomcat config
+server :
+  port : 8080
+  ##项目名字配置
+  servlet : 
+    context-path : /dataMaintenance
+  tomcat :
+    max-threads : 128
+    min-spare-threads : 5
+    uri-encoding : UTF-8
+    #shiro 报错修改的地方
+    max-connections: 200000
+    max-http-post-size: 9000000
+spring :
+  # 环境 dev|test|prod
+  profiles :
+    active : dev,tablename
+    #引入其他配置文件，例如ftpHX 未配置文件application-ftpHX.yml
+  #热部署模块
+  devtools:
+    restart:
+      #热部署开关
+      enabled: true
+      #指定热部署的目录
+      additional-paths: src/main/java
+      #指定目录不更新
+      exclude: test/**
+  mvc:   #静态文件
+    static-path-pattern : /static/**
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+logging:
+  level:
+    org.springframework.boot.autoconfigure: ERROR 
