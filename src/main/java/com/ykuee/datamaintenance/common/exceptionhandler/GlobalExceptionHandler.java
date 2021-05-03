@@ -44,8 +44,8 @@ import org.springframework.web.multipart.support.MissingServletRequestPartExcept
 
 import com.ykuee.datamaintenance.common.base.constant.ExceptionCode;
 import com.ykuee.datamaintenance.common.base.exception.BusinessException;
-import com.ykuee.datamaintenance.common.base.response.BaseResponse;
 import com.ykuee.datamaintenance.common.page.disablewrapper.DisableWrapper;
+import com.ykuee.datamaintenance.common.response.entity.BaseResponse;
 
 import cn.hutool.core.util.StrUtil;
 

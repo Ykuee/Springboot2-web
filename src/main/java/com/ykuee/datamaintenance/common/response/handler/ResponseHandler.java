@@ -1,4 +1,4 @@
-package com.ykuee.datamaintenance.common.page.handler;
+package com.ykuee.datamaintenance.common.response.handler;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
-import com.ykuee.datamaintenance.common.base.response.BaseResponse;
 import com.ykuee.datamaintenance.common.page.context.PageContextHolder;
 import com.ykuee.datamaintenance.common.page.disablewrapper.DisableWrapper;
+import com.ykuee.datamaintenance.common.response.entity.BaseResponse;
 
 import java.lang.reflect.Type;
 import java.util.Map;

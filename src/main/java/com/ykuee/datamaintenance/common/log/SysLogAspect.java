@@ -27,8 +27,8 @@ import org.springframework.util.StringUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.ykuee.datamaintenance.common.base.constant.Constant;
-import com.ykuee.datamaintenance.common.base.response.BaseResponse;
 import com.ykuee.datamaintenance.common.log.entity.SysLogResult;
+import com.ykuee.datamaintenance.common.response.entity.BaseResponse;
 import com.ykuee.datamaintenance.common.support.HttpContextHolder;
 import com.ykuee.datamaintenance.common.support.JsonMapper;
 import com.ykuee.datamaintenance.common.support.JwtUtil;

@@ -1,4 +1,4 @@
-package com.ykuee.datamaintenance.common.base.response;
+package com.ykuee.datamaintenance.common.response.entity;
 
 import com.ykuee.datamaintenance.common.page.entity.Page;
 
