@@ -1,0 +1,114 @@
+#dev环境  mysql7.0
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: org.postgresql.Driver
+    ds-type: jdbc # jdbc  jndi
+    jndi-name: jdbc/jydbDataSource
+    #druid连接池配置
+    druid:
+     #主库数据源
+      master:
+        url: jdbc:postgresql://192.168.90.222:5432/postgres?currentSchema=sip
+        username: root
+        password: N7SzUcPRyn
+     #备数据源 #关闭
+      slave:
+        enabled: false
+        url: 
+        username: 
+        password: 
+      #配置初始化连接数大小
+      initial-size: 10
+      # 最大连接数
+      max-active: 50
+      #最小连接数
+      min-idle: 10
+      #获取连接等待超时时间
+      max-wait: 5000
+      pool-prepared-statements: true #是否缓存preparedStatement，也就是PSCache。PSCache对支持游标的数据库性能提升巨大，比如说oracle。在mysql下建议关闭。
+      max-pool-prepared-statement-per-connection-size: 20
+      validation-query: SELECT 1 FROM DUAL
+      validation-query-timeout: 20000
+      test-on-borrow: false #申请连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能。
+      test-on-return: false #归还连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能。
+      test-while-idle: true #建议配置为true，不影响性能，并且保证安全性。申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效。
+      time-between-eviction-runs-millis: 60000 #配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      min-evictable-idle-time-millis: 300000  #一个连接在池中最小生存的时间，单位是毫秒
+      #StatViewServlet配置。（因为暴露的监控信息比较敏感，支持密码加密和访问ip限定）
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/*
+        #可以增加访问账号密码【去掉注释就可以】
+        #login-username: admin
+        #login-password: admin
+      filter:
+        stat:
+          enabled: true
+          log-slow-sql: true
+          slow-sql-millis: 1000
+          merge-sql: true
+      wall:
+          config:
+            multi-statement-allow: true
+  redis:
+    database: 10
+    host: 192.168.90.144
+    port: 8303
+    password:
+    lettuce:
+      pool:
+        max-active: 10
+        max-wait: 30ms
+        max-idle: 50
+        min-idle: 10
+    timeout: 2000ms
+    #cluster:
+    #  nodes: 192.168.80.148:6375,192.168.80.148:6376,192.168.80.148:6377,192.168.80.148:6380,192.168.80.148:6381,192.168.80.148:6382
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      enabled: true
+http:
+  #代理开关0-关闭 1-打开
+  proxySwitch: 0
+  proxyHost: 192.168.90.110
+  proxyPort: 80
+  #连接池
+  #连接池的最大连接数
+  maxTotal: 100
+  #同路由的并发数
+  defaultMaxPerRoute: 50
+  #客户端和服务器建立连接超时，默认2s
+  connectTimeout: 2000
+  #从连接池获取连接的超时时间,不宜过长,单位ms
+  connectionRequestTimeout: 500
+  #指客户端从服务器读取数据包的间隔超时时间,不是总读取时间,也就是socket timeout,ms
+  socketTimeout: 30000
+  #连接闲置2分钟后需要重新检测
+  validateAfterInactivity: 120000
+  #重试次数
+  retryTimes: 3
+  charset: UTF-8
+  #长连接保持时间 单位s,不宜过长
+  keepAliveTime: 10
+jwt:
+  jwtFilter: true
+  AESKey: DMYkUeewwTzHaCo1
+  AESIV: aV6jWQRQ1TzsrLKe
+  JWTKey: JWTSUElKV1RkV2FuZzkyNjQ1NA==
+  accessTokenExpireTime: 30000    #jwtToken的过期时间
+  refreshTokenExpireTime: 180000  #redis缓存中的过期时间
+  shiroCacheExpireTime: 30000    #
+#swagger
+swagger2:
+  enable: true
+mybatis-plus:
+  mapper-locations:
+    classpath: /mapper/**/*Mapper.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+upload:
+  defMaxSize: 5 #上传文件默认最大5MB
+  defUploadPath: /upload/default/ #车型配件上传目录
+  vehiclePartPicPath: e:/upload/vehiclePartPic/ #车型配件上传目录

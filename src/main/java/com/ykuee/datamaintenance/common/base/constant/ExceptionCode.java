@@ -1,0 +1,73 @@
+package com.ykuee.datamaintenance.common.base.constant;
+
+import com.ykuee.datamaintenance.common.base.codeenum.BaseMessage;
+
+/**
+ * 错误代码
+ */
+public enum ExceptionCode implements BaseMessage {
+
+    // 系统相关 start
+    NO_WARN("-1", "不提示信息"),
+    SYSTEM_BUSY("-2", "系统繁忙~请稍后再试~"),
+    SYSTEM_TIMEOUT("-6", "系统维护中~请稍后再试~"),
+    PARAM_EX("-7", "参数类型解析异常"),
+    SQL_EX("-8", "运行SQL出现异常"),
+    NULL_POINT_EX("-9", "空指针异常"),
+    ILLEGALA_ARGUMENT_EX("-10", "无效参数异常"),
+    MEDIA_TYPE_EX("-11", "请求类型异常"),
+    LOAD_RESOURCES_ERROR("-12", "加载资源出错"),
+    PARAM_VALID_EX("-13", "统一验证参数异常"),
+    EXPORT_ERROR_CODE("208","导出异常"),
+    OPERATION_EX("-14", "操作异常"),
+    REDIS_EX("-15", "Redis连接异常"),
+
+    // REST错误码
+    OK("200", "OK"),
+    BAD_REQUEST("400", "错误的请求"),
+    UNAUTHORIZED("401", "未经授权"),
+    NOT_FOUND("404", "没有找到资源"),
+    METHOD_NOT_ALLOWED("405", "不支持当前请求类型"),
+    TOO_MANY_REQUESTS("429", "请求超过次数限制"),
+    INTERNAL_SERVER_ERROR("500", "内部服务错误"),
+    BAD_GATEWAY("502", "网关错误"),
+    GATEWAY_TIMEOUT("504", "网关超时"),
+    //系统相关 end
+
+    REQUIRED_FILE_PARAM_EX("1001", "请求中必须至少包含一个有效文件"),
+    //jwt token 相关 start
+
+    JWT_TOKEN_EXPIRED("40001", "登录超时，请重新登录"),
+    JWT_SIGNATURE("40002", "不合法的token，请认真比对 token 的签名"),
+    JWT_ILLEGAL_ARGUMENT("40003", "缺少token参数"),
+    JWT_GEN_TOKEN_FAIL("40004", "生成token失败"),
+    JWT_PARSER_TOKEN_FAIL("40005", "解析token失败"),
+    JWT_USER_INVALID("40006", "用户名或密码错误"),
+    JWT_USER_ENABLED("40007", "用户已经被禁用！"),
+    JWT_USER_STATUS_CANCEL("502","用户已注销"),
+    JWT_USER_STATUS_INACTIVATED("501","用户未激活"),
+    //SC_FORBIDDEN("403","token失效，请重新登录！"),
+    //jwt token 相关 end
+    FACADE_ERROR("-500", "Facade平台异常" ),
+    DATA_SOURCE_TYPE("500", "数据库类型不能为空" ),
+    ;
+
+    private String code;
+    private String description;
+
+    ExceptionCode(String code, String description) {
+        this.code = code;
+        this.description = description;
+    }
+
+    @Override
+    public String getCode() {
+        return code;
+    }
+
+    @Override
+    public String getDescription() {
+        return description;
+    }
+
+}

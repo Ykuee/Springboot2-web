@@ -1,0 +1,4 @@
+dynamictablenames:
+  tableNames:               #表名列表
+   - dynamic_table_name     #动态表名
+

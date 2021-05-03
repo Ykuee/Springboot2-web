@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ykuee.datamaintenance.mapper.system.menu.SysMenuMapper">
+
+
+    <!-- 通用查询结果列 -->
+    <sql id="BaseColumnList">
+        select id, code, parent_id, name, title, level_type, path,component, sort, icon,disable_Flag
+    </sql>
+
+
+    <select id="listSelectedByRoleId" resultType="com.ykuee.datamaintenance.model.system.menu.dto.SysMenuDTO">
+        <include refid="BaseColumnList"></include>
+        from SYS_MENU where DEL_FLAG = '0' and disable_flag = '0' and id IN ( SELECT menu_id FROM SYS_ROLE_MENU WHERE role_id IN
+        <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        )
+        order by sort
+    </select>
+    
+    <select id="listByRoleId" resultType="com.ykuee.datamaintenance.model.system.menu.dto.SysMenuDTO">
+        select sm.id,
+		       sm.code,
+		       sm.name,
+		       sm.title,
+		       sm.parent_id,
+		       sm.level_type,
+		       sm.path,
+		       sm.component,
+		       sm.sort,
+		       sm.icon,
+		       sm.created_by,
+		       sm.created_date,
+		       sm.updated_by,
+		       sm.updated_date,
+		       sm.del_flag,
+		       sm.disable_Flag,
+			   (CASE WHEN srm.id is null THEN '0' ELSE '1' END) selected
+		from SYS_MENU sm
+			left join SYS_ROLE_MENU srm on sm.id = srm.menu_id and srm.role_id = #{roleId,jdbcType=VARCHAR} 
+        <!-- <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach> -->
+		where sm.DEL_FLAG = '0' and sm.disable_Flag = '0' order by sort
+    </select>
+
+    <select id="getMenuListByUserId" resultType="com.ykuee.datamaintenance.model.system.menu.dto.SysMenuDTO">
+        SELECT m.id,
+		       m.code,
+		       m.name,
+		       m.title,
+		       m.parent_id,
+		       m.level_type,
+		       m.path,
+		       m.component,
+		       m.sort,
+		       m.icon,
+		       m.create_by,
+		       m.create_date,
+		       m.update_by,
+		       m.update_date,
+		       m.del_flag,
+		       m.disable_Flag
+			from sys_role_menu rm
+			         left join sys_menu m on rm.menu_id = m.id
+			where m.DEL_FLAG = '0'
+			  and m.disable_Flag = '0'
+			  and rm.role_id in (select t1.ID
+			                     from SYS_USER_ROLE t2
+			                              left join SYS_ROLE t1 on t2.ROLE_ID = t1.id
+			                     where t1.DEL_FLAG = '0' ant t1.disable_Flag = '0'
+			                       and t2.USER_ID = #{userId,jdbcType=VARCHAR})
+		 	order by sort
+    </select>
+
+</mapper>
