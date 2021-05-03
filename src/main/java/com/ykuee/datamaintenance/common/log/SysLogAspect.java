@@ -22,12 +22,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.ykuee.datamaintenance.common.base.constant.Constant;
-import com.ykuee.datamaintenance.common.base.response.BaseResponse;
 import com.ykuee.datamaintenance.common.log.entity.SysLogResult;
 import com.ykuee.datamaintenance.common.support.HttpContextHolder;
 import com.ykuee.datamaintenance.common.support.JsonMapper;
@@ -35,7 +33,6 @@ import com.ykuee.datamaintenance.common.support.JwtUtil;
 import com.ykuee.datamaintenance.common.support.LogUtil;
 import com.ykuee.datamaintenance.model.system.log.entity.SysLogEntity;
 
-import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.URLUtil;
 import cn.hutool.extra.pinyin.PinyinUtil;

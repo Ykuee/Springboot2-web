@@ -18,7 +18,7 @@ import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.ykuee.datamaintenance.common.base.constant.Constant;
 import com.ykuee.datamaintenance.common.base.exception.BusinessException;
-import com.ykuee.datamaintenance.common.base.response.BaseResponse;
+import com.ykuee.datamaintenance.common.response.entity.BaseResponse;
 import com.ykuee.datamaintenance.common.shiro.prop.JWTProp;
 import com.ykuee.datamaintenance.common.shiro.token.JwtToken;
 import com.ykuee.datamaintenance.common.support.JwtUtil;
