@@ -46,5 +46,4 @@ com.ykuee.SpringbootStart.java
 | Mica-Xss 2.4.3-GA     | xss拦截                                             |
 | SysLog                | 异步日志记录                                        |
 | IdGenerator           | id生成器 Snowflake                                  |
-| Response              | 统一的response格式返回                              |
 
