@@ -2,6 +2,8 @@ package com.ykuee.datamaintenance.service.system.menu.impl;
 
 import java.util.List;
 
+import cn.hutool.core.util.StrUtil;
+import com.ykuee.datamaintenance.common.uidgenerator.IdGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,28 +21,45 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
 
 	@Autowired
 	private SysRoleMenuConverter sysRoleMenuConverter;
-	
+
+	@Autowired
+	private IdGenerator<String> idGenerator;
+
 	@Override
-	@Transactional
-	public boolean addRoleMenu(List<SysRoleMenuDTO> roleMenuDTO) {
-		return saveBatch(sysRoleMenuConverter.toEntity(roleMenuDTO));
+	@Transactional(rollbackFor = Exception.class)
+	public boolean addRoleMenu(List<SysRoleMenuDTO> roleMenuDTOList) {
+		if(roleMenuDTOList == null || roleMenuDTOList.size() == 0){
+			return true;
+		}
+		LbuWrapper<SysRoleMenuEntity> lbu = new LbuWrapper<SysRoleMenuEntity>();
+		lbu.eq(SysRoleMenuEntity::getRoleId, roleMenuDTOList.get(0).getRoleId());
+		remove(lbu);
+		roleMenuDTOList.forEach(dto -> dto.setId(idGenerator.generate()));
+		return saveBatch(sysRoleMenuConverter.toEntity(roleMenuDTOList));
 	}
 
 	@Override
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public boolean delRoleMenu(List<SysRoleMenuDTO> roleMenuDTO) {
 		for (SysRoleMenuDTO dto : roleMenuDTO) {
 			LbuWrapper<SysRoleMenuEntity> lbu = new LbuWrapper<SysRoleMenuEntity>();
-			//lbu.eq(SysRoleMenuEntity::getId, dto.getId());
 			lbu.eq(SysRoleMenuEntity::getMenuId, dto.getMenuId());
 			lbu.eq(SysRoleMenuEntity::getRoleId, dto.getRoleId());
 			remove(lbu);
-			/*
-			boolean success = remove(lbu);
-			if (!success) {
-				throw new BusinessException("用户删除菜单发生错误");
-			}*/
 		}
 		return true;
 	}
+
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public boolean delRoleAllMenu(String roleId) {
+		if(StrUtil.isBlank(roleId)){
+			return true;
+		}
+		LbuWrapper<SysRoleMenuEntity> lbu = new LbuWrapper<SysRoleMenuEntity>();
+		lbu.eq(SysRoleMenuEntity::getRoleId, roleId);
+		remove(lbu);
+		return true;
+	}
+
 }

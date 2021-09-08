@@ -26,7 +26,6 @@ import org.springframework.util.StringUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.ykuee.datamaintenance.common.base.constant.Constant;
-import com.ykuee.datamaintenance.common.log.entity.SysLogResult;
 import com.ykuee.datamaintenance.common.support.HttpContextHolder;
 import com.ykuee.datamaintenance.common.support.JsonMapper;
 import com.ykuee.datamaintenance.common.support.JwtUtil;
@@ -58,7 +57,7 @@ public class SysLogAspect {
     /***
      * 定义controller切入点拦截规则，拦截SysLog注解的方法
      */
-    @Pointcut("@annotation(com.ykuee.datamaintenance.common.log.entity.SysLog)")
+    @Pointcut("@annotation(com.ykuee.datamaintenance.common.log.SysLog)")
     public void sysLogAspect() {
 
     }
@@ -125,7 +124,7 @@ public class SysLogAspect {
             publishEvent(operateLogDTO);
         });
     }
-    
+
     private void annotation(SysLogEntity operateLogDTO, JoinPoint joinPoint) {
         // 方法注解信息
         Method method = LogUtil.getAnnotationMethod(joinPoint);

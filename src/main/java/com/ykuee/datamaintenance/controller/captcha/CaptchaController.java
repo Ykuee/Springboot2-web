@@ -1,6 +1,8 @@
 package com.ykuee.datamaintenance.controller.captcha;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +11,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.wf.captcha.SpecCaptcha;
+import com.wf.captcha.base.Captcha;
+import com.ykuee.datamaintenance.common.base.constant.Constant;
+import com.ykuee.datamaintenance.common.support.RedisUtil;
+import com.ykuee.datamaintenance.common.uidgenerator.IdGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,23 +38,18 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @RequestMapping("/captcha")
 public class CaptchaController {
-	@Autowired
-	private Producer captchaProducer;
+
+	//@Autowired
+	//private Producer captchaProducer;
+
+	//@Autowired
+	//private Producer captchaProducerMath;
 
 	@Autowired
-	private Producer captchaProducerMath;
+	IdGenerator<String> idGenerator;
 
-	/**
-	 * 
-	  *<p>Title: getKaptchaImage</p>
-	  *<p>Description: "验证码生成 默认abcd</p>
-	  * @author Ykuee
-	  * @date 2021-3-4 
-	  * @param request
-	  * @param response
-	  * @param type
-	  * @return
-	 */
+
+	/*
 	@ApiOperation(value = "验证码生成", notes = "验证码生成")
 	@GetMapping("/captchaImage")
 	public Map<String,String> getKaptchaImage(HttpServletRequest request, HttpServletResponse response, String type) {
@@ -86,16 +88,45 @@ public class CaptchaController {
 		resMap.put("imagesBase64", imagesBase64);
 		return resMap;
 	}
-
+	*/
 
 	/**
-	 * 
-	  *<p>Title: isVerify</p>
-	  *<p>Description: 滚动条验证码</p>
-	  * @author Ykuee
-	  * @date 2021-3-4 
-	  * @param datas
-	  * @return
+	 *
+	 *<p>Title: getKaptchaImage</p>
+	 *<p>Description: "验证码生成 默认abcd</p>
+	 * @author Ykuee
+	 * @date 2021-3-4
+	 * @return
+	 */
+	@ApiOperation(value = "验证码生成", notes = "验证码生成")
+	@GetMapping("/captchaImage")
+	public Map<String,String> getEasyCaptchaImage() throws IOException, FontFormatException {
+		// 三个参数分别为宽、高、位数
+		//GifCaptcha  specCaptcha = new GifCaptcha(130, 48, 4);
+		SpecCaptcha  specCaptcha = new SpecCaptcha(130, 48, 4);
+		// 设置字体
+		// 有默认字体，可以不用设置
+		//specCaptcha.setFont(new Font("Verdana", Font.PLAIN, 32));
+		specCaptcha.setFont(Captcha.FONT_1);
+		// 设置类型，纯数字、纯字母、字母数字混合
+		specCaptcha.setCharType(Captcha.TYPE_ONLY_NUMBER);
+		Map<String,String> resMap = new HashMap<String, String>();
+		String base64String = specCaptcha.toBase64();
+		String keyString = idGenerator.generate();
+		resMap.put("imagesBase64", base64String);
+		resMap.put("imagesKey", keyString);
+		RedisUtil.setObject( Constant.EASY_CAPTCA+":"+keyString,specCaptcha.text().toLowerCase(),Constant.EXRP_MINUTE*10);
+		return resMap;
+	}
+
+	/**
+	 *
+	 *<p>Title: isVerify</p>
+	 *<p>Description: 滚动条验证码</p>
+	 * @author Ykuee
+	 * @date 2021-3-4
+	 * @param datas
+	 * @return
 	 */
 	@ApiOperation(value = "滚动条验证码", notes = "滚动条验证码")
 	@PostMapping("/isVerify")

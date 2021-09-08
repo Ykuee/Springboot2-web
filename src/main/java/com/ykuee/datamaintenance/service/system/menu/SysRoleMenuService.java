@@ -5,6 +5,7 @@ import java.util.List;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ykuee.datamaintenance.model.system.menu.dto.SysRoleMenuDTO;
 import com.ykuee.datamaintenance.model.system.menu.entity.SysRoleMenuEntity;
+import org.springframework.transaction.annotation.Transactional;
 
 public interface SysRoleMenuService extends IService<SysRoleMenuEntity> {
 
@@ -12,4 +13,6 @@ public interface SysRoleMenuService extends IService<SysRoleMenuEntity> {
 
 	boolean delRoleMenu(List<SysRoleMenuDTO> roleMenuDTO);
 
+    @Transactional(rollbackFor = Exception.class)
+    boolean delRoleAllMenu(String roleId);
 }

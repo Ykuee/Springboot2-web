@@ -8,6 +8,7 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import com.ykuee.datamaintenance.common.base.approval.ApprovalServiceImpl;
 import org.apache.ibatis.binding.MapperMethod;
 import org.apache.ibatis.logging.Log;
 import org.apache.ibatis.logging.LogFactory;
@@ -51,17 +52,23 @@ public class ServiceImpl<M extends BaseMapper<T>, T> extends com.baomidou.mybati
      * @param result 数据库操作返回影响条数
      * @return boolean
      */
+    @Override
     protected boolean retBool(Integer result) {
         return SqlHelper.retBool(result);
     }
 
+    @Override
     protected Class<T> currentModelClass() {
+        if(this instanceof ApprovalServiceImpl){
+            return (Class<T>) ReflectionKit.getSuperClassGenericType(getClass(), 2);
+        }
         return (Class<T>) ReflectionKit.getSuperClassGenericType(getClass(), 1);
     }
 
     /**
      * 批量操作 SqlSession
      */
+    @Override
     protected SqlSession sqlSessionBatch() {
         return SqlHelper.sqlSessionBatch(currentModelClass());
     }
@@ -71,6 +78,7 @@ public class ServiceImpl<M extends BaseMapper<T>, T> extends com.baomidou.mybati
      *
      * @param sqlSession session
      */
+    @Override
     protected void closeSqlSession(SqlSession sqlSession) {
         SqlSessionUtils.closeSqlSession(sqlSession, GlobalConfigUtils.currentSessionFactory(currentModelClass()));
     }
@@ -81,6 +89,7 @@ public class ServiceImpl<M extends BaseMapper<T>, T> extends com.baomidou.mybati
      * @param sqlMethod ignore
      * @return ignore
      */
+    @Override
     protected String sqlStatement(SqlMethod sqlMethod) {
         return SqlHelper.table(currentModelClass()).getSqlStatement(sqlMethod.getMethod());
     }
@@ -200,14 +209,14 @@ public class ServiceImpl<M extends BaseMapper<T>, T> extends com.baomidou.mybati
             try {
                 entity = this.currentModelClass().newInstance();
             } catch (InstantiationException e) {
-               e.printStackTrace();
+                e.printStackTrace();
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
         }
         return update(entity, updateWrapper);
     }
-    
+
     @Override
     public boolean update(T entity, Wrapper<T> updateWrapper) {
         return retBool(baseMapper.update(entity, updateWrapper));
@@ -296,4 +305,5 @@ public class ServiceImpl<M extends BaseMapper<T>, T> extends com.baomidou.mybati
     public <V> V getObj(Wrapper<T> queryWrapper, Function<? super Object, V> mapper) {
         return SqlHelper.getObject(log, listObjs(queryWrapper, mapper));
     }
+
 }

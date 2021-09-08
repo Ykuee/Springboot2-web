@@ -20,7 +20,7 @@ public class LogConstant {
         /** 批量修改操作 */
         public static final String BATCHUPDATE = "BATCHUPDATE";
         /** 保存操作 */
-		public static final String ADD = "ADD";
+        public static final String ADD = "ADD";
         /** 单笔删除操作 */
         public static final String DELETE = "DELETE";
         /** 批量删除操作 */
@@ -29,8 +29,10 @@ public class LogConstant {
         public static final String SUBMIT = "SUBMIT";
         /** 审批成功操作 */
         public static final String CHECKNEXT = "CHECKNEXT";
+        /** 审批成功操作 */
+        public static final String CHECKAGREE = "CHECKAGREE";
         /** 审批拒绝操作 */
-        public static final String CHECKREFUSE = "CHECKREFUSE";
+        public static final String CHECKREJECT = "CHECKREJECT";
         /** 提交撤销流程操作 */
         public static final String SUBMITREVOCK = "SUBMITREVOCK";
         /** 查询操作 */

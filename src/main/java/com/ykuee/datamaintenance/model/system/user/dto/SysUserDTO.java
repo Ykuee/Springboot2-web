@@ -12,7 +12,7 @@ import lombok.Data;
 @Data
 public class SysUserDTO extends BaseDTO<String>{
 
-	private String searchCode;
+    private String searchCode;
     //用户id
     private String id;
     //用户编码
@@ -21,10 +21,19 @@ public class SysUserDTO extends BaseDTO<String>{
     private String name;
     //登录名
     private String loginName;
+    //旧密码
+    private String oldPassword;
     //密码
     private String password;
     //验证码
     private String captchaCode;
-    
+
+    private String captchaKey;
+
     private String disableFlag;
+
+    //创建人
+    private String createdName;
+    //修改人
+    private String updatedName;
 }

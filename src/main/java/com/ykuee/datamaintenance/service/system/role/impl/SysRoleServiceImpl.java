@@ -22,12 +22,12 @@ import cn.hutool.core.util.StrUtil;
 @Service
 public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRoleEntity> implements SysRoleService {
 
-    @Autowired
-    private SysRoleMapper sysRoleMapper;
-    
-    @Autowired	
-    private SysRoleConverter sysRoleConverter;
-    
+	@Autowired
+	private SysRoleMapper sysRoleMapper;
+
+	@Autowired
+	private SysRoleConverter sysRoleConverter;
+
 
 	@Override
 	public List<SysRoleDTO> getSelectedRoleListByUserId(String userId) {
@@ -46,11 +46,15 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRoleEntity
 		lbq.ne(SysRoleEntity::getId, sysRoleDTO.getId());
 		return count(lbq);
 	}
-	
-	
 
 	@Override
-	@Transactional
+	public List<SysRoleDTO> getRoleList(SysRoleDTO sysRoleDTO) {
+		return sysRoleMapper.selectBySearchCode(sysRoleDTO);
+	}
+
+
+	@Override
+	@Transactional(rollbackFor = Exception.class)
 	public boolean addRole(SysRoleDTO sysRoleDTO) {
 		int count = getCountByCode(sysRoleDTO);
 		if(count>0) {
@@ -62,7 +66,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRoleEntity
 
 
 	@Override
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public boolean updateRole(SysRoleDTO sysRoleDTO) {
 		int count = getCountByCode(sysRoleDTO);
 		if(count>0) {
@@ -73,11 +77,11 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRoleEntity
 
 
 	@Override
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public boolean delRole(SysRoleDTO sysRoleDTO) {
 		LbuWrapper<SysRoleEntity> lbu = new LbuWrapper<SysRoleEntity>();
+		lbu.set(SysRoleEntity::getDelFlag, YesOrNo.YES.getKey());
 		lbu.eq(SysRoleEntity::getId, sysRoleDTO.getId());
-		lbu.eq(SysRoleEntity::getDelFlag, YesOrNo.YES.getKey());
 		return update(lbu);
 	}
 

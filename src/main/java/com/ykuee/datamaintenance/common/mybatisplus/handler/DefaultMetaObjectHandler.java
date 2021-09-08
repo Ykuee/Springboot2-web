@@ -1,8 +1,18 @@
 package com.ykuee.datamaintenance.common.mybatisplus.handler;
 
-import java.lang.reflect.Field;
-import java.util.Date;
-
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.annotation.DbType;
+import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
+import com.baomidou.mybatisplus.core.toolkit.Constants;
+import com.ykuee.datamaintenance.common.base.approval.ApprovalBaseEntity;
+import com.ykuee.datamaintenance.common.base.codeenum.BaseCodeEnum;
+import com.ykuee.datamaintenance.common.base.constant.ApproveStatus;
+import com.ykuee.datamaintenance.common.base.constant.Constant;
+import com.ykuee.datamaintenance.common.base.model.entity.AbstractEntity;
+import com.ykuee.datamaintenance.common.base.model.entity.BaseEntity;
+import com.ykuee.datamaintenance.common.support.JwtUtil;
+import com.ykuee.datamaintenance.common.uidgenerator.IdGenerator;
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
@@ -11,23 +21,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
-import com.baomidou.mybatisplus.annotation.DbType;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
-import com.baomidou.mybatisplus.core.toolkit.Constants;
-import com.ykuee.datamaintenance.common.base.codeenum.BaseCodeEnum;
-import com.ykuee.datamaintenance.common.base.constant.Constant;
-import com.ykuee.datamaintenance.common.base.model.entity.AbstractEntity;
-import com.ykuee.datamaintenance.common.base.model.entity.BaseEntity;
-import com.ykuee.datamaintenance.common.support.JwtUtil;
-import com.ykuee.datamaintenance.common.uidgenerator.IdGenerator;
-
-import cn.hutool.core.util.StrUtil;
+import java.lang.reflect.Field;
+import java.util.Date;
 
 /**
  * @description： MyBatis Plus 元数据处理类【 inputTime, modifyTime, inputUserId,
  * modifyUserId 等字段】
- * 
+ *
  * @date ：2020/5/12 18:08
  */
 public class DefaultMetaObjectHandler implements MetaObjectHandler {
@@ -43,12 +43,12 @@ public class DefaultMetaObjectHandler implements MetaObjectHandler {
 
 	private String logicNotDeleteValue;
 
-    public DefaultMetaObjectHandler(String logicNotDeleteValue, IdGenerator<String> idGenerator, String dbType) {
-        super();
-        this.logicNotDeleteValue = logicNotDeleteValue;
-        this.idGenerator = idGenerator;
-        this.dbType = DbType.getDbType(dbType);
-    }
+	public DefaultMetaObjectHandler(String logicNotDeleteValue, IdGenerator<String> idGenerator, String dbType) {
+		super();
+		this.logicNotDeleteValue = logicNotDeleteValue;
+		this.idGenerator = idGenerator;
+		this.dbType = DbType.getDbType(dbType);
+	}
 
 	public DefaultMetaObjectHandler(String logicNotDeleteValue, String dbType) {
 		super();
@@ -104,8 +104,16 @@ public class DefaultMetaObjectHandler implements MetaObjectHandler {
 					this.setFieldValByName(BaseEntity.DEL_FLAG, "0", metaObject);
 				}
 			}
-
 			update(metaObject, baseEntity);
+		}
+		if (entity instanceof ApprovalBaseEntity) {
+			ApprovalBaseEntity approvalBaseEntity = (ApprovalBaseEntity) entity;
+			if (ObjectUtils.isEmpty(approvalBaseEntity.getStatus())) {
+				if (metaObject.getGetterType(ApprovalBaseEntity.STATUS).isEnum()) {
+					this.setFieldValByName(ApprovalBaseEntity.STATUS, ApproveStatus.SAVE, metaObject);
+				}
+			}
+			update(metaObject, approvalBaseEntity);
 		}
 	}
 
@@ -149,12 +157,16 @@ public class DefaultMetaObjectHandler implements MetaObjectHandler {
 		if (metaObject.getOriginalObject() instanceof BaseEntity) {
 			BaseEntity entity = (BaseEntity) metaObject.getOriginalObject();
 			update(metaObject, entity);
-		} else {
+		}else {
 			Object et = metaObject.getValue(Constants.ENTITY);
 			if (et != null && et instanceof BaseEntity) {
 				BaseEntity entity = (BaseEntity) et;
 				update(metaObject, entity, Constants.ENTITY + ".");
 			}
+		}
+		if(metaObject.getOriginalObject() instanceof ApprovalBaseEntity){
+			ApprovalBaseEntity entity = (ApprovalBaseEntity) metaObject.getOriginalObject();
+			update(metaObject, entity);
 		}
 	}
 
@@ -177,20 +189,34 @@ public class DefaultMetaObjectHandler implements MetaObjectHandler {
 		update(metaObject, entity, "");
 	}
 
+	private void update(MetaObject metaObject, ApprovalBaseEntity entity, String et) {
+		if (ObjectUtils.isEmpty(entity.getStatus())) {
+			if (ObjectUtils.isEmpty(entity.getStatus())) {
+				if (metaObject.getGetterType(ApprovalBaseEntity.STATUS).isEnum()) {
+					this.setFieldValByName(ApprovalBaseEntity.STATUS, ApproveStatus.SAVE, metaObject);
+				}
+			}
+		}
+	}
+
+	private void update(MetaObject metaObject, ApprovalBaseEntity entity) {
+		update(metaObject, entity, "");
+	}
+
 	private String getUserId() {
 		String userId;
-    	try {
-    		String token = SecurityUtils.getSubject().getPrincipal().toString();
-    		userId = JwtUtil.getClaim(token, Constant.USER_ID);
+		try {
+			String token = SecurityUtils.getSubject().getPrincipal().toString();
+			userId = JwtUtil.getClaim(token, Constant.USER_ID);
 		} catch (Exception e) {
 			logger.error("获取用户token发生异常");
 			//throw new BusinessException("用户信息已过期，请重新登陆");
 			return "";
 		}
-    	if(StrUtil.isBlank(userId)) {
-    		//throw new BusinessException("获取用户发生异常");
-    		return "";
-    	}
-	return userId;
+		if(StrUtil.isBlank(userId)) {
+			//throw new BusinessException("获取用户发生异常");
+			return "";
+		}
+		return userId;
 	}
 }

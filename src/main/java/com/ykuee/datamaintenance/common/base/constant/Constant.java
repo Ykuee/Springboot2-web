@@ -28,8 +28,8 @@ public class Constant {
      * redis-key-前缀-shiro:cache:
      */
     public static final String PREFIX_SHIRO_CACHE = "shiro:cache:";
-    
-    
+
+
     public static final String PREFIX_SHIRO = "shiro:";
 
     /**
@@ -46,7 +46,7 @@ public class Constant {
      * JWT-loginName:
      */
     public static final String LOGIN_NAME = "loginName";
-    
+
     /**
      * JWT-loginName:
      */
@@ -61,17 +61,17 @@ public class Constant {
      * PASSWORD_MAX_LEN
      */
     public static final Integer PASSWORD_MAX_LEN = 8;
-    
+
     /**
      * 用户密码正则校验
      */
     public static final String PASSWORD_PATTERN = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,16}$";
-    
+
     public static final String AUTHORIZATION = "Authorization";
-    
+
     public static final String ACCESS_HEADERS = "Access-Control-Expose-Headers";
 
-    public static final String OPERATE_NAME = "钣金项目";
+    public static final String OPERATE_NAME = "测试项目";
 
     public static final Boolean FLAG = false;
 
@@ -79,6 +79,7 @@ public class Constant {
 
     public static final String TWO_LEVEL="2";
 
+    public static final String EASY_CAPTCA="EASY_CAPTCA";
 
 
 }

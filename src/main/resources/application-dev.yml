@@ -15,9 +15,9 @@ spring:
      #备数据源 #关闭
       slave:
         enabled: false
-        url: 
-        username: 
-        password: 
+        url:
+        username:
+        password:
       #配置初始化连接数大小
       initial-size: 10
       # 最大连接数
@@ -100,7 +100,7 @@ jwt:
   accessTokenExpireTime: 30000    #jwtToken的过期时间
   refreshTokenExpireTime: 180000  #redis缓存中的过期时间
   shiroCacheExpireTime: 30000     #
-  
+
 #net.dreamlu.mica.xss.config.MicaXssProperties
 mica:
   xss:
@@ -118,5 +118,4 @@ mybatis-plus:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 upload:
   defMaxSize: 5 #上传文件默认最大5MB
-  defUploadPath: /upload/default/ #车型配件上传目录
-  vehiclePartPicPath: e:/upload/vehiclePartPic/ #车型配件上传目录
+  defUploadPath: /upload/default/ #上传目录

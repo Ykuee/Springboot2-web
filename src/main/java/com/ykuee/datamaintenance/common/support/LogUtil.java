@@ -6,7 +6,7 @@ import java.lang.reflect.Method;
 
 import org.aspectj.lang.JoinPoint;
 
-import com.ykuee.datamaintenance.common.log.entity.SysLog;
+import com.ykuee.datamaintenance.common.log.SysLog;
 
 public class LogUtil {
 

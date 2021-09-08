@@ -2,31 +2,30 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ykuee.datamaintenance.mapper.system.role.SysRoleMapper">
 
-
-    <select id="selectBySearchKey" resultType="com.ykuee.datamaintenance.model.system.role.dto.SysRoleDTO">
-     select ID, NAME, CODE, REMARK, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, DEL_FLAG,disable_Flag
-       from SYS_ROLE
-      where PARENT_ID is null
-        and DEL_FLAG = '0'
-        <if test="searchKey!=null and searchKey!='' ">
-            <bind name="pattern" value="'%' + searchKey + '%'" />
-            and NAME like #{pattern,jdbcType=VARCHAR} or CODE like #{pattern,jdbcType=VARCHAR})
+    <select id="selectBySearchCode" resultType="com.ykuee.datamaintenance.model.system.role.dto.SysRoleDTO">
+        select id,
+        name,
+        code,
+        remark,
+        created_by,
+        created_date,
+        updated_by,
+        updated_date,
+        del_flag,
+        disable_flag,
+        ( SELECT NAME FROM sys_user WHERE ID = SYS_ROLE.created_by ) created_name,
+        ( SELECT NAME FROM sys_user WHERE ID = SYS_ROLE.updated_by ) updated_name
+        from SYS_ROLE
+        where DEL_FLAG = '0'
+        <if test="searchCode!=null and searchCode!='' ">
+            <bind name="pattern" value="'%' + searchCode + '%'" />
+            and ( NAME like #{pattern,jdbcType=VARCHAR} or CODE like #{pattern,jdbcType=VARCHAR} )
         </if>
-      order by ID
+        <if test="disableFlag != null and disableFlag != '' ">
+            and disable_flag = #{disableFlag}
+        </if>
+        order by updated_date desc, ID desc
     </select>
-
-    <select id="selectUserRoleBySearchKey" resultType="com.ykuee.datamaintenance.model.system.role.dto.SysRoleDTO">
-        select t1.ID, t1.NAME, t1.CODE, t1.REMARK, t1.CREATE_BY, t1.CREATE_DATE, t1.UPDATE_BY, t1.UPDATE_DATE, t1.DEL_FLAG,t1.disable_Flag
-        from SYS_USER_ROLE t2 left join SYS_ROLE t1 on t2.ROLE_ID = t1.id
-        where t1.DEL_FLAG = '0'
-          and t2.USER_ID  = #{userId,jdbcType=VARCHAR}
-        <if test="searchKey!=null and searchKey!='' ">
-            <bind name="pattern" value="'%' + searchKey + '%'" />
-            and (t1.NAME like #{pattern,jdbcType=VARCHAR} or t1.CODE like #{pattern,jdbcType=VARCHAR})
-        </if>
-        order by t1.UPDATE_DATE
-     </select>
-
 
     <select id="getRoleListByUserId" resultType="com.ykuee.datamaintenance.model.system.role.dto.SysRoleDTO">
         select t1.ID, t1.NAME, t1.CODE, t1.REMARK, t1.CREATE_BY, t1.CREATE_DATE, t1.UPDATE_BY, t1.UPDATE_DATE, t1.DEL_FLAG, t1.disable_Flag

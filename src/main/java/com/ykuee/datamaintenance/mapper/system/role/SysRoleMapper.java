@@ -23,11 +23,9 @@ import com.ykuee.datamaintenance.model.system.role.entity.SysRoleEntity;
 @Repository
 public interface SysRoleMapper extends BaseMapper<SysRoleEntity> {
 
-    IPage<SysRoleDTO> selectBySearchKey(Page<SysRoleDTO> sysRoleDTOPage, String searchKey);
-
-    IPage<SysRoleEntity> selectUserRoleBySearchKey(Page<SysRoleEntity> sysRolePage, @Param("userId") String id, @Param("searchKey")String searchKey);
-
 	List<SysRoleDTO> getRoleListByUserId(String userId);
 
 	List<SysRoleDTO> getRolesByUserId(String userId);
+
+    List<SysRoleDTO> selectBySearchCode(SysRoleDTO sysRoleDTO);
 }

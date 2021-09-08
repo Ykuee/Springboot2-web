@@ -27,11 +27,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserEntity
 
 	@Autowired
 	private SysUserConverter userConverter;
-	
-    @Autowired
-    private SysUserMapper userMapper;
 
-    
+	@Autowired
+	private SysUserMapper userMapper;
+
+
 	@Override
 	public SysUserDTO getUser(SysUserDTO userDto) {
 		LbqWrapper<SysUserEntity> lbq = new LbqWrapper<SysUserEntity>();
@@ -46,16 +46,15 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserEntity
 
 	/**
 	 * (non-Javadoc)
-	  * <p>Title: updateUser</p>
-	  * <p>Description: </p>
-	  * @author Ykuee
-	  * @date 2021-3-18 
-	  * @param userInfo
-	  * @return
-	  * @see com.ykuee.datamaintenance.service.system.user.SysUserService#updateUser(com.ykuee.datamaintenance.model.system.user.dto.SysUserDTO)
+	 * <p>Title: updateUser</p>
+	 * <p>Description: </p>
+	 * @author Ykuee
+	 * @date 2021-3-18
+	 * @param userInfo
+	 * @return
 	 */
 	@Override
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public boolean updateUser(SysUserDTO userInfo) {
 		SysUserEntity entity = userConverter.toEntity(userInfo);
 		return updateById(entity);
@@ -64,19 +63,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserEntity
 
 	@Override
 	public List<SysUserDTO> gerUserList(SysUserDTO userDto) {
-		LbqWrapper<SysUserEntity> lbq = new LbqWrapper<SysUserEntity>();
-		lbq.eq(SysUserEntity::getId, userDto.getId());
-		lbq.eq(SysUserEntity::getCode, userDto.getCode());
-		lbq.eq(SysUserEntity::getLoginName, userDto.getId());
-		lbq.eq(SysUserEntity::getName, userDto.getId());
-		lbq.eq(SysUserEntity::getDelFlag, YesOrNo.NO.getKey());
-		if(StrUtil.isNotBlank(userDto.getSearchCode())) {
-			lbq.and(wrapper ->wrapper
-					.like(SysUserEntity::getCode,userDto.getSearchCode())
-					.like(SysUserEntity::getName,userDto.getSearchCode())
-					.like(SysUserEntity::getLoginName,userDto.getSearchCode()));
-		}
-		return userConverter.toDto(list(lbq));
+		List<SysUserDTO> resultUserList = userMapper.gerUserList(userDto);
+		return resultUserList;
 	}
 
 }

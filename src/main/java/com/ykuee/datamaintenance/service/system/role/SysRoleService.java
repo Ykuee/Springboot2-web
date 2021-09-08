@@ -10,7 +10,9 @@ public interface SysRoleService extends IService<SysRoleEntity> {
 
 	List<SysRoleDTO> getSelectedRoleListByUserId(String userId);
 
-	boolean addRole(SysRoleDTO sysRoleDTO);
+    List<SysRoleDTO> getRoleList(SysRoleDTO sysRoleDTO);
+
+    boolean addRole(SysRoleDTO sysRoleDTO);
 
 	boolean updateRole(SysRoleDTO sysRoleDTO);
 

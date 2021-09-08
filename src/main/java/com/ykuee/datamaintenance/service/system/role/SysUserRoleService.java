@@ -13,4 +13,5 @@ public interface SysUserRoleService extends IService<SysUserRoleEntity>{
 	boolean delUserRole(List<SysUserRoleDTO> sysUserRoleList);
 
 
+    boolean delUserAllRoles(String userId);
 }
