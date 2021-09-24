@@ -1,6 +1,6 @@
 package com.ykuee.datamaintenance.common.response.entity;
 
-import com.ykuee.datamaintenance.common.page.entity.Page;
+import com.ykuee.datamaintenance.common.response.page.entity.Page;
 
 import io.swagger.annotations.ApiModelProperty;
 
@@ -25,7 +25,7 @@ public class BaseResponse<T> {
     private T data;
 
     public BaseResponse() {
-    	
+
     }
 
     public BaseResponse(String code, String msg, String path) {

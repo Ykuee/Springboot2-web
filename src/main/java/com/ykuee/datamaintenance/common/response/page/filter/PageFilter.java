@@ -1,4 +1,4 @@
-package com.ykuee.datamaintenance.common.page.filter;
+package com.ykuee.datamaintenance.common.response.page.filter;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,9 +7,9 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.ykuee.datamaintenance.common.page.context.PageContext;
-import com.ykuee.datamaintenance.common.page.entity.Page;
-import com.ykuee.datamaintenance.common.page.entity.Sort;
+import com.ykuee.datamaintenance.common.response.page.context.PageContext;
+import com.ykuee.datamaintenance.common.response.page.entity.Page;
+import com.ykuee.datamaintenance.common.response.page.entity.Sort;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;

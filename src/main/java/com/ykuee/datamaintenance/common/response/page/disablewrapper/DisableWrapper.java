@@ -1,4 +1,4 @@
-package com.ykuee.datamaintenance.common.page.disablewrapper;
+package com.ykuee.datamaintenance.common.response.page.disablewrapper;
 
 import java.lang.annotation.*;
 

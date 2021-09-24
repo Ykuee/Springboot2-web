@@ -1,6 +1,6 @@
-package com.ykuee.datamaintenance.common.page.context;
+package com.ykuee.datamaintenance.common.response.page.context;
 
-import com.ykuee.datamaintenance.common.page.entity.Page;
+import com.ykuee.datamaintenance.common.response.page.entity.Page;
 
 /**
  * 系统上下文，使用threadlocal

@@ -4,7 +4,7 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     driverClassName: oracle.jdbc.driver.OracleDriver
     ds-type: jdbc # jdbc  jndi
-    jndi-name: jdbc/jydbDataSource
+    jndi-name: jdbc/jndiDataSource
     #druid连接池配置
     druid:
      #主库数据源

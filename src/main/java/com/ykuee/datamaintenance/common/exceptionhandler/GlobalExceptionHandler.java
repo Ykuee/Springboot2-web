@@ -44,7 +44,7 @@ import org.springframework.web.multipart.support.MissingServletRequestPartExcept
 
 import com.ykuee.datamaintenance.common.base.constant.ExceptionCode;
 import com.ykuee.datamaintenance.common.base.exception.BusinessException;
-import com.ykuee.datamaintenance.common.page.disablewrapper.DisableWrapper;
+import com.ykuee.datamaintenance.common.response.page.disablewrapper.DisableWrapper;
 import com.ykuee.datamaintenance.common.response.entity.BaseResponse;
 
 import cn.hutool.core.util.StrUtil;
@@ -75,33 +75,33 @@ public class GlobalExceptionHandler {
         BaseResponse<Object> baseResponse = build(ex.getCode(), ex.getMessage(), request.getRequestURI());
         return baseResponse;
     }
-    
+
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(UnauthorizedException.class)
     public BaseResponse handle401(UnauthorizedException e) {
         return build(ExceptionCode.UNAUTHORIZED.getCode(), ExceptionCode.UNAUTHORIZED.getDescription(),"");
     }
-    
+
 	@ExceptionHandler(PoolException.class)
 	public BaseResponse<Object> handlePoolException(PoolException e) {
 		logger.error(e.getMessage(), e);
 		return build(ExceptionCode.REDIS_EX.getCode(), ExceptionCode.REDIS_EX.getDescription(), "");
 	}
-	
+
     @ExceptionHandler(AuthorizationException.class)
     public BaseResponse<Object> handleAuthorizationException(HttpServletRequest request, AuthorizationException e)
     {
     	logger.error(" 权限校验异常》》"+e.getMessage(), e);
     	return build(ExceptionCode.UNAUTHORIZED.getCode(), ExceptionCode.UNAUTHORIZED.getDescription(), request.getRequestURI());
     }
-    
+
     @ExceptionHandler(AuthenticationException.class)
     public BaseResponse<Object> handleAuthenticationException(HttpServletRequest request, AuthenticationException e)
     {
     	logger.error(" 权限校验异常》》"+e.getMessage(), e);
     	return build(ExceptionCode.JWT_TOKEN_EXPIRED.getCode(), ExceptionCode.JWT_TOKEN_EXPIRED.getDescription(), request.getRequestURI());
     }
-    
+
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public BaseResponse<Object> httpMessageNotReadableException(HttpMessageNotReadableException ex, HttpServletRequest request, HandlerMethod handlerMethod) {
@@ -319,7 +319,7 @@ public class GlobalExceptionHandler {
 
         BaseResponse<Object> response=build(ExceptionCode.PARAM_VALID_EX.getCode(), ExceptionCode.PARAM_VALID_EX.getDescription(), request.getRequestURI());
         return response;
-        
+
     }
 
     /**

@@ -1,4 +1,5 @@
 dynamictablenames:
   tableNames:               #表名列表
    - dynamic_table_name     #动态表名
+   - sys_test_dy            #动态表头
 

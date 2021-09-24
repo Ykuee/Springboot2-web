@@ -4,13 +4,13 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     driverClassName: oracle.jdbc.driver.OracleDriver #org.postgresql.Driver
     ds-type: jdbc # jdbc  jndi
-    jndi-name: jdbc/jydbDataSource
+    jndi-name: jdbc/jndiDataSource
     #druid连接池配置
     druid:
      #主库数据源
       master:
-        url: jdbc:oracle:thin:@192.168.90.119:1521:jydb
-        username: claim_cloud
+        url: jdbc:oracle:thin:@192.168.0.119:1521:test
+        username: root
         password: 123456
      #备数据源 #关闭
       slave:

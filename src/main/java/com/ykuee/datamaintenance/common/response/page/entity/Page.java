@@ -1,4 +1,4 @@
-package com.ykuee.datamaintenance.common.page.entity;
+package com.ykuee.datamaintenance.common.response.page.entity;
 
 import java.util.List;
 

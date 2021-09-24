@@ -1,13 +1,13 @@
-package com.ykuee.datamaintenance.common.page;
+package com.ykuee.datamaintenance.common.response.page;
 
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.ykuee.datamaintenance.common.page.filter.PageFilter;
+import com.ykuee.datamaintenance.common.response.page.filter.PageFilter;
 
 /**
- * 
+ *
   * @version:
   * @Description: 分页拦截
   * @author: Ykuee
@@ -15,7 +15,7 @@ import com.ykuee.datamaintenance.common.page.filter.PageFilter;
  */
 @Configuration
 public class PageFilterConfig {
- 
+
     @Bean
     public FilterRegistrationBean registFilter() {
         FilterRegistrationBean registration = new FilterRegistrationBean();
@@ -25,5 +25,5 @@ public class PageFilterConfig {
         registration.setOrder(300);
         return registration;
     }
- 
+
 }

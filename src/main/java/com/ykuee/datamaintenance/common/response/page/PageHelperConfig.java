@@ -1,4 +1,4 @@
-package com.ykuee.datamaintenance.common.page;
+package com.ykuee.datamaintenance.common.response.page;
 
 import java.util.Properties;
 import org.springframework.context.annotation.Bean;
@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import com.github.pagehelper.PageHelper;
 
 /**
- * 
+ *
   * @version:
   * @Description: 分页插件配置类
   * @author: Ykuee

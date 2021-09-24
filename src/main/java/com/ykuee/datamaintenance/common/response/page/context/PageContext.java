@@ -1,8 +1,8 @@
-package com.ykuee.datamaintenance.common.page.context;
+package com.ykuee.datamaintenance.common.response.page.context;
 
 import com.google.common.base.CaseFormat;
-import com.ykuee.datamaintenance.common.page.entity.Page;
-import com.ykuee.datamaintenance.common.page.entity.Sort;
+import com.ykuee.datamaintenance.common.response.page.entity.Page;
+import com.ykuee.datamaintenance.common.response.page.entity.Sort;
 
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;

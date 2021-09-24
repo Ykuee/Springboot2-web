@@ -4,10 +4,8 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.ykuee.datamaintenance.common.page.filter.PageFilter;
-
 /**
- * 
+ *
   * @version:
   * @Description: 用于清除动态表名的ThreadLocal
   * @author: Ykuee
@@ -15,7 +13,7 @@ import com.ykuee.datamaintenance.common.page.filter.PageFilter;
  */
 @Configuration
 public class TableNameFilterConfig {
- 
+
     @Bean
     public FilterRegistrationBean registTableNameFilter() {
         FilterRegistrationBean registration = new FilterRegistrationBean();
@@ -25,5 +23,5 @@ public class TableNameFilterConfig {
         registration.setOrder(400);
         return registration;
     }
- 
+
 }

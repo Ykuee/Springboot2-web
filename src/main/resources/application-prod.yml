@@ -4,7 +4,7 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     driverClassName: org.postgresql.Driver
     ds-type: jndi # jdbc  jndi
-    jndi-name: jydbDataSource
+    jndi-name: jndiDataSource
     #druid连接池配置
     druid:
      #主库数据源
@@ -15,9 +15,9 @@ spring:
      #备数据源 #关闭
       slave:
         enabled: false
-        url: 
-        username: 
-        password: 
+        url:
+        username:
+        password:
       #配置初始化连接数大小
       initial-size: 10
       # 最大连接数
@@ -64,7 +64,7 @@ spring:
         min-idle: 10
     timeout: 2000ms
     cluster:
-      nodes: 
+      nodes:
         - 10.157.3.105:6379
         - 10.157.3.105:6380
         - 10.157.3.110:6379

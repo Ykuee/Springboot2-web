@@ -1,4 +1,4 @@
-package com.ykuee.datamaintenance.common.page.interceptor;
+package com.ykuee.datamaintenance.common.response.page.interceptor;
 
 import org.apache.ibatis.cache.CacheKey;
 import org.apache.ibatis.executor.Executor;
@@ -11,8 +11,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.ObjectUtils;
 
-import com.ykuee.datamaintenance.common.page.context.PageContextHolder;
-import com.ykuee.datamaintenance.common.page.entity.Page;
+import com.ykuee.datamaintenance.common.response.page.context.PageContextHolder;
+import com.ykuee.datamaintenance.common.response.page.entity.Page;
 
 import java.util.List;
 import java.util.Properties;

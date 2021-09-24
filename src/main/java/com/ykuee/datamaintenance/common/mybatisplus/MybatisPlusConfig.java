@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import org.apache.ibatis.plugin.Interceptor;
@@ -20,15 +19,12 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.jndi.JndiObjectFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
 import com.baomidou.mybatisplus.annotation.FieldStrategy;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.autoconfigure.MybatisPlusProperties;
@@ -42,7 +38,6 @@ import com.baomidou.mybatisplus.extension.plugins.OptimisticLockerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.pagination.optimize.JsqlParserCountOptimize;
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
-import com.ykuee.datamaintenance.common.datasources.DataDymcSourceType;
 import com.ykuee.datamaintenance.common.datasources.DynamicDataSource;
 import com.ykuee.datamaintenance.common.dynamictablename.TableNameHandler;
 import com.ykuee.datamaintenance.common.dynamictablename.TableNames;
@@ -51,7 +46,7 @@ import com.ykuee.datamaintenance.common.mybatisplus.typehandler.CodeEnumTypeHand
 import com.ykuee.datamaintenance.common.mybatisplus.typehandler.FullLikeTypeHandler;
 import com.ykuee.datamaintenance.common.mybatisplus.typehandler.LeftLikeTypeHandler;
 import com.ykuee.datamaintenance.common.mybatisplus.typehandler.RightLikeTypeHandler;
-import com.ykuee.datamaintenance.common.page.interceptor.PageInterceptor;
+import com.ykuee.datamaintenance.common.response.page.interceptor.PageInterceptor;
 import com.ykuee.datamaintenance.common.uidgenerator.IdGenerator;
 
 import cn.hutool.core.util.ArrayUtil;
@@ -67,29 +62,29 @@ public class MybatisPlusConfig {
 
     @Value("${datamaintenance.db.db-type:oracle}")
     private String dbType;
-    
+
     @Autowired
     private TableNameHandler tableNameHandler;
-    
+
     @Autowired
     private TableNames tableNames;
-    
+
     @Value("${spring.datasource.jndi-name}")
     private String jndiName;
-    
-	
+
+
 	@Bean("transactionManager")
 	@ConditionalOnProperty(prefix = "spring.datasource", name = "ds-type", havingValue = "jdbc")
 	public PlatformTransactionManager transactionManager(DynamicDataSource dynamicDataSource) {
 		return new DataSourceTransactionManager(dynamicDataSource);
 	}
-	
+
 	@Bean("transactionManager")
 	@ConditionalOnProperty(prefix = "spring.datasource", name = "ds-type", havingValue = "jndi")
 	public PlatformTransactionManager jndiTransactionManager(DataSource jndiDataSource) {
 		return new DataSourceTransactionManager(jndiDataSource);
 	}
-	
+
     /**
      * mybatis Sql Session 工厂
      *
@@ -116,8 +111,8 @@ public class MybatisPlusConfig {
     }
 
 	protected SqlSessionFactory setMybatisSqlSessionFactoryBean(MybatisSqlSessionFactoryBean sqlSessionFactory,
-																String[] resourceLocationPatterns, 
-																GlobalConfig globalConfig, 
+																String[] resourceLocationPatterns,
+																GlobalConfig globalConfig,
 																MetaObjectHandler metaObjectHandler)throws Exception {
 		Resource[] all = new Resource[] {};
 		PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
@@ -170,7 +165,7 @@ public class MybatisPlusConfig {
         typeAliases[2] = FullLikeTypeHandler.class;
         sessionFactory.setTypeAliases(typeAliases);
     }
-    
+
 	/**
 	 * Mybatis Plus 注入器
 	 *
@@ -183,7 +178,7 @@ public class MybatisPlusConfig {
 		String logicNotDeleteValue = globalConfig.getDbConfig().getLogicNotDeleteValue();
 		return new DefaultMetaObjectHandler(logicNotDeleteValue, idGenerate, dbType);
 	}
-	
+
     /**
      * mybatis plus 全局配置
      *
@@ -205,16 +200,16 @@ public class MybatisPlusConfig {
 		conf.setDbConfig(config);
 		return conf;
 	}
-	
+
 	/**
-	 * 
+	 *
 	  *<p>Title: paginationInterceptor</p>
 	  *<p>Description: mybatis动态表名
 	  * - 通过配置文件application-tablename.yml 配置需要替换的表名
 	  * - 使用com.ykuee.datamaintenance.util.TableNameUtil替换表名
 	  *</p>
 	  * @author Ykuee
-	  * @date 2021-4-29 
+	  * @date 2021-4-29
 	  * @return
 	 */
 	@Bean
